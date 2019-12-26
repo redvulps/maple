@@ -14,7 +14,7 @@ const Application = () => {
 
   let rootView = null;
 
-  if (!isConnected) {
+  if (isConnected) {
     rootView = (
       <div className="main-container">
         <div className="main-toolbar">
