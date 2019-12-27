@@ -16,7 +16,7 @@ const installExtensions = async () => {
 
 const createWindow = async () => {
   if (process.env.NODE_ENV !== 'production') {
-    await installExtensions();
+    installExtensions();
   }
 
   win = new BrowserWindow({
