@@ -1,15 +1,14 @@
 import { hot } from 'react-hot-loader/root';
 import React, { useState } from 'react';
 import SplitPane from 'react-split-pane';
+import Redis from "redis";
 
 import './Application.sass';
 
 import NewConnection from './NewConnection';
 import DatabaseSelector from './DatabaseSelector';
-import KeyTree from './KeyTree';
+import KeyTree, { IRedisKey } from './KeyTree';
 import KeyViewer from './KeyViewer';
-
-import Redis from "redis";
 
 let redisInstance: Redis.RedisClient;
 
@@ -17,6 +16,7 @@ const Application = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [currentDatabase, setCurrentDatabase] = useState(0);
+  const [currentKey, setCurrentKey] = useState<IRedisKey | null>(null);
 
   let rootView = null;
   const onConnect = async (host: string, port:string) => {
@@ -62,8 +62,8 @@ const Application = () => {
         </div>
         <div className="main-content">
           <SplitPane split="vertical">
-            <KeyTree redisInstance={redisInstance} currentDatabase={currentDatabase} />
-            <KeyViewer redisInstance={redisInstance} currentDatabase={currentDatabase} />
+            <KeyTree redisInstance={redisInstance} currentDatabase={currentDatabase} onSelectKey={(key: IRedisKey) => setCurrentKey(key)} />
+            <KeyViewer redisInstance={redisInstance} currentDatabase={currentDatabase} currentKey={currentKey} />
           </SplitPane>
         </div>
       </div>

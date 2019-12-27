@@ -5,11 +5,12 @@ import { IRedisKey } from ".";
 export interface IKeyProps {
   redisKey: IRedisKey;
   deepness: number;
+  onClick: (key: IRedisKey) => void;
 }
 
-const Key = ({ redisKey, deepness }: IKeyProps) => (
+const Key = ({ redisKey, deepness, onClick }: IKeyProps) => (
   <div style={{ marginLeft: `${deepness * 15}px` }}>
-    {redisKey.name}
+    <span onClick={() => onClick(redisKey)}>{redisKey.name}</span>
   </div>
 );
 

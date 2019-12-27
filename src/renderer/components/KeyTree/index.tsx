@@ -6,6 +6,7 @@ import Key from './Key';
 export interface IKeyTreeProps {
   redisInstance: Redis.RedisClient;
   currentDatabase: number;
+  onSelectKey: (key: IRedisKey) => void;
 }
 
 export interface IRedisKey {
@@ -16,7 +17,7 @@ export interface IRedisKey {
 }
 
 const KeyTree = (props: IKeyTreeProps) => {
-  const { currentDatabase, redisInstance } = props;
+  const { currentDatabase, redisInstance, onSelectKey } = props;
   
   const [keys, setKeys] = useState<IRedisKey[]>([]);
   const [isScanning, setIsScanning] = useState(false);
@@ -144,12 +145,12 @@ const KeyTree = (props: IKeyTreeProps) => {
             redisKey={key}
             childrenKeys={childrenContainer}
             expanded={isExpanded}
-            toggleExpand={(key) => toggleExpand(key)}
+            onToggleExpand={toggleExpand}
             deepness={deepness} />
         );
       } else {
         return (
-          <Key key={key.path} redisKey={key} deepness={deepness} />
+          <Key key={key.path} redisKey={key} deepness={deepness} onClick={onSelectKey} />
         )
       }
     });

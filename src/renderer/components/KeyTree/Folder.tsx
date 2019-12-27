@@ -7,15 +7,15 @@ export interface IFolderProps {
   expanded: boolean;
   deepness: number;
   redisKey: IRedisKey;
-  toggleExpand: (key: IRedisKey) => void;
+  onToggleExpand: (key: IRedisKey) => void;
 }
 
 const Folder = (props: IFolderProps) => {
-  const { childrenKeys, deepness, expanded, redisKey, toggleExpand } = props;
+  const { childrenKeys, deepness, expanded, redisKey, onToggleExpand } = props;
 
   return (
     <>
-      <a onClick={() => toggleExpand(redisKey)} style={{ marginLeft: `${deepness * 15}px` }}>
+      <a onClick={() => onToggleExpand(redisKey)} style={{ marginLeft: `${deepness * 15}px` }}>
         {expanded ? "-" : "+"}
         {redisKey.name}
       </a>
