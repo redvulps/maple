@@ -18,7 +18,7 @@
     "test:e2e": "jest '(\\/test\\/e2e/).*'",
     "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps && yarn patch-package"
   },
   "husky": {
     "hooks": {
@@ -101,6 +101,7 @@
     "@types/react-hot-loader": "^4.1.0",
     "@types/react-redux": "^7.0.9",
     "@types/react-test-renderer": "^16.8.1",
+    "@types/redis": "^2.8.14",
     "@types/webdriverio": "^5.0.0",
     "@types/webpack-env": "^1.13.3",
     "babel-loader": "^8.0.6",
@@ -137,6 +138,7 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "patch-package": "^6.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",

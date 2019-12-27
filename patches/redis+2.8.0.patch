@@ -1,0 +1,14 @@
+diff --git a/node_modules/redis/lib/customErrors.js b/node_modules/redis/lib/customErrors.js
+index d9b3442..e9a2f49 100644
+--- a/node_modules/redis/lib/customErrors.js
++++ b/node_modules/redis/lib/customErrors.js
+@@ -2,7 +2,8 @@
+ 
+ var util = require('util');
+ var assert = require('assert');
+-var RedisError = require('redis-parser').RedisError;
++var RedisError = require('redis-errors').RedisError;
++
+ var ADD_STACKTRACE = false;
+ 
+ function AbortError (obj, stack) {
