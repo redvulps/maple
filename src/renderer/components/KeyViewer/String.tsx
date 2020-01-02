@@ -27,7 +27,7 @@ const String = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) 
         }
       })
       .exec();
-  }, []);
+  }, [currentKey]);
 
   return (
     <div>

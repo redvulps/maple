@@ -29,7 +29,7 @@ const Set = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => 
         }
       })
       .exec();
-  }, []);
+  }, [currentKey]);
 
   const renderResult = () => {
     const memberList = keyValue.map((value, index) => (

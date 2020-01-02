@@ -37,7 +37,7 @@ const Hash = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
         }
       })
       .exec();
-  }, []);
+  }, [currentKey]);
 
   const loadHashValue = (field: string) => {
     redisInstance
