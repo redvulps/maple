@@ -75,7 +75,7 @@ const Hash = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
   return (
     <div>
       <div>{keyLoaded ? renderResult() : "Loading..."}</div>
-      <Footer lengthType="members" length={keyKeys.length} keyEncoding={keyEncoding} />
+      <Footer lengthType="members" length={hashLength} keyEncoding={keyEncoding} />
     </div>
   );
 };
