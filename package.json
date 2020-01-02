@@ -135,6 +135,8 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "@mdi/js": "^4.7.95",
+    "@mdi/react": "^1.2.1",
     "patch-package": "^6.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
