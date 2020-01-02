@@ -139,7 +139,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
-    "react-split-pane": "^2.0.3",
+    "react-split-pane": "^0.1.89",
     "redis": "^2.8.0",
     "redux": "^4.0.1"
   },
