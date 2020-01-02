@@ -175,6 +175,7 @@ const KeyTree = (props: IKeyTreeProps) => {
       <Key
         key={key.path}
         redisKey={key}
+        keyType={keyTypes[key.path]}
         deepness={0}
         onClick={onSelectKey}
       />
@@ -201,10 +202,10 @@ const KeyTree = (props: IKeyTreeProps) => {
 
   return (
     <div>
-      <div>
+      <div className="key-filter-container">
         <input type="text" onChange={(e) => setSearchKeyword(e.target.value)} />
       </div>
-      <div>
+      <div className="key-list-container">
         {searchKeyword.length ? renderSearch() : renderTree(tree)}
       </div>
     </div>
