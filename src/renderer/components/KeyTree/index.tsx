@@ -20,9 +20,11 @@ const KeyTree = (props: IKeyTreeProps) => {
   const { currentDatabase, redisInstance, onSelectKey } = props;
   
   const [keys, setKeys] = useState<IRedisKey[]>([]);
+  const [filteredKeys, setFilteredKeys] = useState<IRedisKey[]>([]);
   const [isScanning, setIsScanning] = useState(false);
   const [expanded, setExpanded] = useState<string[]>([]);
   const [tree, setTree] = useState<Record<string, IRedisKey>>({});
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   const scanForKeys = (cursor = 0) => {
     setIsScanning(true);
@@ -91,7 +93,6 @@ const KeyTree = (props: IKeyTreeProps) => {
     keys.forEach(keyToTree);
     
     setTree(newTree);
-    setKeys([]);
   }
 
   const toggleExpand = (key: IRedisKey) => {
@@ -118,25 +119,6 @@ const KeyTree = (props: IKeyTreeProps) => {
       if (childrenLength && expanded) {
         childrenContainer = renderTree(key.children, deepness + 1);
       }
-
-      // if (childrenLength && expanded) {
-      //   expanderIcon = faFolderOpen;
-      //   childrenContainer = this.renderTree(key.children, deepness + 15);
-      // } else if (childrenLength && !expanded) {
-      //   expanderIcon = faFolder;
-      // } else {
-      //   expanderIcon = faKey;
-      // }
-
-      // return (
-      //   <div key={`db.${this.props.database}.${key.path}`}>
-      //     <a href="#" style={{ marginLeft: margin }} onClick={() => childrenLength > 0 ? this.toggleExpand(key) : this.makeClick(key)}>
-      //       <FontAwesomeIcon className="mr-2" icon={expanderIcon} />
-      //       {key.name}
-      //     </a>
-      //     {childrenContainer}
-      //   </div>
-      // );
 
       if (childrenLength > 0) {
         return (
@@ -165,7 +147,18 @@ const KeyTree = (props: IKeyTreeProps) => {
         </div>
       );
     }
-  }
+  };
+
+  const renderSearch = () => {
+    return filteredKeys.map((key) => (
+      <Key
+        key={key.path}
+        redisKey={key}
+        deepness={0}
+        onClick={onSelectKey}
+      />
+    ));
+  };
 
   useEffect(() => {
     if (!isScanning) {
@@ -177,9 +170,22 @@ const KeyTree = (props: IKeyTreeProps) => {
     scanForKeys();
   }, [currentDatabase]);
 
+  useEffect(() => {
+    if (searchKeyword.length) {
+      setFilteredKeys(keys.filter((key) => key.path.match(new RegExp(searchKeyword, "ig")) !== null));
+    } else {
+      setFilteredKeys([]);
+    }
+  }, [searchKeyword]);
+
   return (
     <div>
-      {renderTree(tree)}
+      <div>
+        <input type="text" onChange={(e) => setSearchKeyword(e.target.value)} />
+      </div>
+      <div>
+        {searchKeyword.length ? renderSearch() : renderTree(tree)}
+      </div>
     </div>
   );
 };
