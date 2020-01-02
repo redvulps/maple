@@ -9,6 +9,7 @@ import NewConnection from './NewConnection';
 import DatabaseSelector from './DatabaseSelector';
 import KeyTree, { IRedisKey } from './KeyTree';
 import KeyViewer from './KeyViewer';
+import FavoriteManager from './FavoriteManager';
 
 let redisInstance: Redis.RedisClient;
 
@@ -61,7 +62,7 @@ const Application = () => {
           </div>
         </div>
         <div className="main-content">
-          <SplitPane split="vertical">
+          <SplitPane split="vertical" defaultSize={200}>
             <KeyTree redisInstance={redisInstance} currentDatabase={currentDatabase} onSelectKey={(key: IRedisKey) => setCurrentKey(key)} />
             <KeyViewer redisInstance={redisInstance} currentDatabase={currentDatabase} currentKey={currentKey} />
           </SplitPane>
@@ -70,7 +71,10 @@ const Application = () => {
     );
   } else {
     rootView = (
-      <NewConnection onConnect={onConnect} isConnecting={isConnecting} />
+      <SplitPane split="vertical" defaultSize={200}>
+        <FavoriteManager />
+        <NewConnection onConnect={onConnect} isConnecting={isConnecting} />
+      </SplitPane>
     );
   }
 
