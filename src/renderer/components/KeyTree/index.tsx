@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Redis from 'redis';
+const { promisify } = require('util');
+
 import Folder from './Folder';
 import Key from './Key';
 
@@ -25,20 +27,24 @@ const KeyTree = (props: IKeyTreeProps) => {
   const [expanded, setExpanded] = useState<string[]>([]);
   const [tree, setTree] = useState<Record<string, IRedisKey>>({});
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [keyTypes, setKeyTypes] = useState<{ [key: string]: string }>({});
 
   const scanForKeys = (cursor = 0) => {
     setIsScanning(true);
 
     redisInstance.multi()
       .select(currentDatabase)
-      .scan(cursor.toString(), (err, result: [string, string[]]) => {
+      .scan(cursor.toString(), async (err, result: [string, string[]]) => {
         if (err) {
           // TODO: Add error handler
         } else {
           const nextCursor = parseInt(result[0]);
+          const pipeline = redisInstance.multi();
+          const typeAsync = promisify(pipeline.type).bind(pipeline);
 
           const newKeys: Array<IRedisKey> = result[1].map((key: string) => {
             const keyParts = key.split(":");
+            typeAsync(key);
 
             return {
               name: keyParts[keyParts.length - 1],
@@ -47,6 +53,15 @@ const KeyTree = (props: IKeyTreeProps) => {
               children: {}
             };
           });
+
+          const typeList = await promisify(pipeline.exec).bind(pipeline)();
+          const resultKeyTypes: { [key: string]: string } = result[1]
+            .map((key: string, index) => ({ [key]: typeList[index] }))
+            .reduce((acc, current: any) => {
+              return { ...acc, ...current };
+            }, {});
+
+            setKeyTypes(resultKeyTypes);
 
           if (newKeys.length) {
             setKeys(newKeys.concat(keys));
@@ -132,7 +147,13 @@ const KeyTree = (props: IKeyTreeProps) => {
         );
       } else {
         return (
-          <Key key={key.path} redisKey={key} deepness={deepness} onClick={onSelectKey} />
+          <Key
+            key={key.path}
+            redisKey={key}
+            keyType={keyTypes[key.path]}
+            deepness={deepness}
+            onClick={onSelectKey}
+          />
         )
       }
     });

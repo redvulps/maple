@@ -2,15 +2,19 @@ import React from "react";
 
 import { IRedisKey } from ".";
 
+import './Key.sass';
+
 export interface IKeyProps {
   redisKey: IRedisKey;
+  keyType: string;
   deepness: number;
   onClick: (key: IRedisKey) => void;
 }
 
-const Key = ({ redisKey, deepness, onClick }: IKeyProps) => (
-  <div style={{ marginLeft: `${deepness * 15}px` }}>
-    <span onClick={() => onClick(redisKey)}>{redisKey.name}</span>
+const Key = ({ deepness, keyType, onClick, redisKey }: IKeyProps) => (
+  <div className="key-container" style={{ marginLeft: `${deepness * 15}px` }} onClick={() => onClick(redisKey)}>
+    <span className={`key-type ${keyType}`}>{(keyType === "string" ? "str" : keyType).toUpperCase()}</span>
+    <span>{redisKey.name}</span>
   </div>
 );
 
