@@ -4,7 +4,7 @@ import { IBaseTypeProps } from "./IBaseTypeProps";
 import Footer from "./Footer";
 
 const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => {
-  const [keyValue, setKeyValue] = useState<string[]>([]);
+  const [keyValue, setKeyValue] = useState<string[][]>([]);
   const [keyEncoding, setKeyEncoding] = useState("");
   const [memberValue, setMemberValue] = useState("");
   const [zsetLength, setZsetLength] = useState(0);
@@ -34,9 +34,16 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
           // TODO: Add error handler
         } else {
           setKeyLoaded(true);
-          setKeyValue(result);
 
-          console.warn(result);
+          const fixedResult = Array(result.length / 2).fill(0).map((_, index) => {
+            if (index > 0) {
+              index++;
+            }
+
+            return [result[index], result[index + 1]];
+          });
+
+          setKeyValue(fixedResult);
         }
       })
       .exec();
@@ -45,9 +52,9 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
   const totalPages = zsetLength > 100 ? Math.round(zsetLength / 100) : 1;
   const renderResult = () => {
     const memberList = keyValue.map((value, index) => (
-      <div key={index} onClick={() => setMemberValue(value)}>
-        <div>{index}</div>
-        <div>{value.substring(0, 100)}</div>
+      <div key={index} onClick={() => setMemberValue(value[0])}>
+        <div>{value[1]}</div>
+        <div>{value[0].substring(0, 100)}</div>
       </div>
     ));
 
