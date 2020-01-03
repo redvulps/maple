@@ -5,8 +5,6 @@ const { promisify } = require("util");
 import Folder from "./Folder";
 import Key from "./Key";
 
-import "./index.sass";
-
 export interface IKeyTreeProps {
   redisInstance: Redis.RedisClient;
   currentDatabase: number;
@@ -203,11 +201,11 @@ const KeyTree = (props: IKeyTreeProps) => {
   }, [searchKeyword]);
 
   return (
-    <div>
-      <div className="key-filter-container">
+    <div className="keytree">
+      <div className="keytree-filter">
         <input type="text" onChange={(e) => setSearchKeyword(e.target.value)} />
       </div>
-      <div className="key-list-container">
+      <div className="keytree-list">
         {searchKeyword.length ? renderSearch() : renderTree(tree)}
       </div>
     </div>

@@ -3,13 +3,12 @@ import React, { useState } from 'react';
 import SplitPane from 'react-split-pane';
 import Redis from "redis";
 
-import './Application.sass';
-
 import NewConnection from './NewConnection';
 import DatabaseSelector from './DatabaseSelector';
 import KeyTree, { IRedisKey } from './KeyTree';
 import KeyViewer from './KeyViewer';
 import FavoriteManager from './FavoriteManager';
+import Toolbar from './Toolbar';
 
 let redisInstance: Redis.RedisClient;
 
@@ -51,10 +50,10 @@ const Application = () => {
 
   if (isConnected) {
     rootView = (
-      <div className="main-container">
-        <div className="main-content">
+      <div className="app">
+        <div className="app-content">
           <SplitPane split="vertical" defaultSize={200} pane2Style={{ display: "flex", flexDirection: "column" }}>
-            <div>
+            <>
               <DatabaseSelector
                 redisInstance={redisInstance}
                 currentDatabase={currentDatabase}
@@ -64,11 +63,9 @@ const Application = () => {
                 currentDatabase={currentDatabase}
                 onSelectKey={(key: IRedisKey) => setCurrentKey(key)}
               />
-            </div>
+            </>
             <>
-              <div>
-                TOOLBOX
-              </div>
+              <Toolbar />
               <KeyViewer
                 redisInstance={redisInstance}
                 currentDatabase={currentDatabase}

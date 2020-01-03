@@ -3,7 +3,8 @@ import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { AppContainer } from "react-hot-loader";
 
-import "./index.sass";
+import "./assets/ui/index.sass";
+import "./assets/fonts/roboto.sass";
 
 import Application from "./components/Application";
 import store from "./store";

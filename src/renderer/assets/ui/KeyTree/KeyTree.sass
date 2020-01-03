@@ -1,0 +1,18 @@
+@import "./Folder"
+@import "./Key"
+
+.keytree
+  display: flex
+  flex-direction: column
+
+  .keytree-filter
+    padding: $basePadding
+    border-bottom: solid $borderWidth var(--border-color)
+
+    input
+      width: 100%
+
+  .keytree-list
+    display: flex
+    flex-direction: column
+    padding: $basePadding

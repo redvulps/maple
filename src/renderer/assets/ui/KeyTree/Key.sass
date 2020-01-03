@@ -1,16 +1,23 @@
-@import "../../../assets/css/_variables"
-
-.key-container
+.keytree__key
   cursor: pointer
   display: inline-flex
   align-items: center
   padding: $basePadding
+
+  &:hover
+    background-color: lightgray
+    border-radius: $baseRadius
+
+  .key-description
+    margin-left: $basePadding
 
   .key-type
     display: inline-flex
     border-radius: $basePadding
     width: $keyListIconSize
     height: $keyListIconSize
+    min-width: $keyListIconSize
+    min-height: $keyListIconSize
     justify-content: center
     align-items: center
 

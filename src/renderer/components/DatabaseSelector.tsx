@@ -23,7 +23,7 @@ const DatabaseSelector = (props: IDatabaseSelectorProps) => {
   ));
 
   return (
-    <div>
+    <div className="database-selector">
       <select onChange={(e) => onSelectDatabase(parseInt(e.target.value))}>
         { databaseList }
       </select>

@@ -1,0 +1,29 @@
+// Core configuration
+@import "~normalize.css"
+@import "./_variables"
+@import "./_colors"
+@import "./_resizer"
+
+// Components
+@import "./Application"
+@import "./KeyViewer/KeyViewer"
+@import "./KeyTree/KeyTree"
+@import "./ToolBar/ToolBar"
+@import "./DatabaseSelector/DatabaseSelector"
+
+*,
+*::before,
+*::after
+  box-sizing: border-box
+
+body
+  font-family: $baseFont
+
+input, select
+  padding: $basePadding
+  border-radius: $baseRadius
+  border: solid $borderWidth var(--border-color)
+
+  &:focus
+    outline-color: var(--color-primary)
+    outline-style: solid

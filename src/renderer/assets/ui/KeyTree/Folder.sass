@@ -1,0 +1,27 @@
+.keytree__folder
+  cursor: pointer
+  display: inline-flex
+  align-items: center
+  padding: $basePadding
+
+  &:hover
+    background-color: lightgray
+    border-radius: $baseRadius
+
+  .folder-description
+    margin-left: $basePadding
+
+  .folder-icon
+    align-items: center
+    background-color: darkorange
+    border-radius: $basePadding
+    display: inline-flex
+    justify-content: center
+    min-height: $keyListIconSize
+    min-width: $keyListIconSize
+    height: $keyListIconSize
+    width: $keyListIconSize
+
+    svg
+      width: $keyListIconSize - 6px
+      height: $keyListIconSize - 6px

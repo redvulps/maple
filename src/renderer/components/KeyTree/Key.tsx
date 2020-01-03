@@ -2,8 +2,6 @@ import React from "react";
 
 import { IRedisKey } from ".";
 
-import './Key.sass';
-
 export interface IKeyProps {
   redisKey: IRedisKey;
   keyType: string;
@@ -12,7 +10,7 @@ export interface IKeyProps {
 }
 
 const Key = ({ deepness, keyType, onClick, redisKey }: IKeyProps) => (
-  <div className="key-container highlight-hover" onClick={() => onClick(redisKey)}>
+  <div className="keytree__key" onClick={() => onClick(redisKey)}>
     <span
       className={`key-type ${keyType}`}
       style={{ marginLeft: `${deepness * 24}px` }}

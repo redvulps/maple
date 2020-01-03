@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Ajv from 'ajv';
 import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/mode-json";
 
 import { IBaseTypeProps } from "./IBaseTypeProps";
@@ -43,16 +44,18 @@ const String = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) 
     keyEditor = (
       <AceEditor
         mode={valid ? "json" : "raw"}
+        theme="github"
         enableBasicAutocompletion={true}
-        enableLiveAutocompletion={true}
-        value={valid ? JSON.stringify(JSON.parse(keyValue), null, 2) : keyValue}
+        value={keyValue}
+        width="100%"
+        height="100%"
       />
     );
   }
 
   return (
     <>
-      <div className="key-viewer-content">{keyLoaded ? keyEditor : "Loading..."}</div>
+      <div className="keyviewer-content">{keyLoaded ? keyEditor : "Loading..."}</div>
       <Footer
         lengthType="bytes"
         length={keyValue !== null && Buffer.byteLength(keyValue, "utf-8") || 0}

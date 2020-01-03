@@ -10,8 +10,6 @@ import List from "./List";
 import Hash from "./Hash";
 import String from "./String";
 
-import "./index.sass";
-
 const viewComponent: { [key: string]: (props: IBaseTypeProps) => JSX.Element } = {
   string: String,
   hash: Hash,
@@ -65,8 +63,8 @@ const KeyViewer = ({currentKey, redisInstance, currentDatabase}: IKeyViewerProps
   }, [currentKey]);
 
   return (
-    <div className="key-viewer-container">
-      <div className="title">{currentKey?.path || "No key selected"}</div>
+    <div className="keyviewer">
+      <div className="keyviewer-title">{currentKey?.path || "No key selected"}</div>
       { currentKey && renderKey() || null }
     </div>
   );
