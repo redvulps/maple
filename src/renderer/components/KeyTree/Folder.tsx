@@ -1,8 +1,10 @@
 import React, { ReactNode } from "react";
 import Icon from '@mdi/react';
-import { mdiFolderOpenOutline, mdiFolderOutline } from "@mdi/js";
+import { mdiFolderOpen, mdiFolder } from "@mdi/js";
 
 import { IRedisKey } from ".";
+
+import "./Folder.sass";
 
 export interface IFolderProps {
   childrenKeys: JSX.Element | JSX.Element[] | null;
@@ -17,10 +19,12 @@ const Folder = (props: IFolderProps) => {
 
   return (
     <>
-      <a onClick={() => onToggleExpand(redisKey)} style={{ marginLeft: `${deepness * 15}px` }}>
-        <span><Icon size={1} path={expanded ? mdiFolderOpenOutline : mdiFolderOutline} /></span>
-        <span>{redisKey.name}</span>
-      </a>
+      <div className="folder-container highlight-hover" onClick={() => onToggleExpand(redisKey)}>
+        <span className="folder-icon" style={{ marginLeft: `${deepness * 24}px` }}>
+          <Icon size="18px" color="white" path={expanded ? mdiFolderOpen : mdiFolder} />
+        </span>
+        <span className="key-description">{redisKey.name}</span>
+      </div>
       {expanded ? childrenKeys : null}
     </>
   );

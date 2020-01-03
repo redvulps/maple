@@ -12,9 +12,14 @@ export interface IKeyProps {
 }
 
 const Key = ({ deepness, keyType, onClick, redisKey }: IKeyProps) => (
-  <div className="key-container" style={{ marginLeft: `${deepness * 15}px` }} onClick={() => onClick(redisKey)}>
-    <span className={`key-type ${keyType}`}>{(keyType === "string" ? "str" : keyType).toUpperCase()}</span>
-    <span>{redisKey.name}</span>
+  <div className="key-container highlight-hover" onClick={() => onClick(redisKey)}>
+    <span
+      className={`key-type ${keyType}`}
+      style={{ marginLeft: `${deepness * 24}px` }}
+    >
+      {keyType.toUpperCase()[0]}
+    </span>
+    <span className="key-description">{redisKey.name}</span>
   </div>
 );
 

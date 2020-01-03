@@ -71,8 +71,8 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
   };
 
   return (
-    <div>
-      <div>{keyLoaded ? renderResult() : "Loading..."}</div>
+    <>
+      <div className="key-viewer-content">{keyLoaded ? renderResult() : "Loading..."}</div>
       <Footer
         lengthType="members"
         length={zsetLength}
@@ -80,7 +80,7 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
         keyEncoding={keyEncoding}
         totalPages={totalPages}
       />
-    </div>
+    </>
   );
 };
 

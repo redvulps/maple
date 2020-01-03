@@ -52,19 +52,29 @@ const Application = () => {
   if (isConnected) {
     rootView = (
       <div className="main-container">
-        <div className="main-toolbar">
-          <DatabaseSelector
-            redisInstance={redisInstance}
-            currentDatabase={currentDatabase}
-            onSelectDatabase={(databaseId) => setCurrentDatabase(databaseId)} />
-          <div>
-            TOOLBOX
-          </div>
-        </div>
         <div className="main-content">
-          <SplitPane split="vertical" defaultSize={200}>
-            <KeyTree redisInstance={redisInstance} currentDatabase={currentDatabase} onSelectKey={(key: IRedisKey) => setCurrentKey(key)} />
-            <KeyViewer redisInstance={redisInstance} currentDatabase={currentDatabase} currentKey={currentKey} />
+          <SplitPane split="vertical" defaultSize={200} pane2Style={{ display: "flex", flexDirection: "column" }}>
+            <div>
+              <DatabaseSelector
+                redisInstance={redisInstance}
+                currentDatabase={currentDatabase}
+                onSelectDatabase={(databaseId) => setCurrentDatabase(databaseId)} />
+              <KeyTree
+                redisInstance={redisInstance}
+                currentDatabase={currentDatabase}
+                onSelectKey={(key: IRedisKey) => setCurrentKey(key)}
+              />
+            </div>
+            <>
+              <div>
+                TOOLBOX
+              </div>
+              <KeyViewer
+                redisInstance={redisInstance}
+                currentDatabase={currentDatabase}
+                currentKey={currentKey}
+              />
+            </>
           </SplitPane>
         </div>
       </div>

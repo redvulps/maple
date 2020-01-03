@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import Redis from 'redis';
-const { promisify } = require('util');
+import React, { useEffect, useState } from "react";
+import Redis from "redis";
+const { promisify } = require("util");
 
-import Folder from './Folder';
-import Key from './Key';
+import Folder from "./Folder";
+import Key from "./Key";
+
+import "./index.sass";
 
 export interface IKeyTreeProps {
   redisInstance: Redis.RedisClient;
@@ -20,7 +22,7 @@ export interface IRedisKey {
 
 const KeyTree = (props: IKeyTreeProps) => {
   const { currentDatabase, redisInstance, onSelectKey } = props;
-  
+
   const [keys, setKeys] = useState<IRedisKey[]>([]);
   const [filteredKeys, setFilteredKeys] = useState<IRedisKey[]>([]);
   const [isScanning, setIsScanning] = useState(false);
@@ -83,7 +85,7 @@ const KeyTree = (props: IKeyTreeProps) => {
     let lastTree: Record<string, IRedisKey> = {};
     let newTree: Record<string, IRedisKey> = {};
     let lastKey = "";
-    
+
     const subKeyToTree = (subkey: string) => {
       if (Object.keys(lastTree).indexOf(subkey) === -1) {
         lastTree[subkey] = {
@@ -93,20 +95,20 @@ const KeyTree = (props: IKeyTreeProps) => {
           children: {}
         }
       }
-      
+
       lastKey += `${subkey}:`;
       lastTree = lastTree[subkey].children;
     };
-    
+
     const keyToTree = (key: IRedisKey) => {
       lastTree = newTree;
       lastKey = "";
-      
+
       key.path.split(":").forEach(subKeyToTree);
     };
-    
+
     keys.forEach(keyToTree);
-    
+
     setTree(newTree);
   }
 
@@ -160,14 +162,14 @@ const KeyTree = (props: IKeyTreeProps) => {
 
     if (keyTree.length) {
       return keyTree;
-    } else {
-      return (
-        <div>
-          <div>Database is empty</div>
-          <button>Add a key</button>
-        </div>
-      );
     }
+
+    return (
+      <div>
+        <div>Database is empty</div>
+        <button>Add a key</button>
+      </div>
+    );
   };
 
   const renderSearch = () => {

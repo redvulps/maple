@@ -51,10 +51,10 @@ const Set = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => 
   };
 
   return (
-    <div>
-      <div>{keyLoaded ? renderResult() : "Loading..."}</div>
+    <>
+      <div className="key-viewer-content">{keyLoaded ? renderResult() : "Loading..."}</div>
       <Footer lengthType="members" length={keyValue.length} keyEncoding={keyEncoding} />
-    </div>
+    </>
   );
 };
 

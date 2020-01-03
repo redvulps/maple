@@ -1,7 +1,9 @@
-import React from 'react';
+import React from "react";
+
+import "./Footer.sass";
 
 export interface IFooterProps {
-  lengthType: 'members' | 'bytes';
+  lengthType: "members" | "bytes";
   length: number;
   keyEncoding: string;
   onPageChange?: (page: number) => void;
@@ -24,18 +26,19 @@ const Footer = ({ keyEncoding, length, lengthType, onPageChange, totalPages }: I
       ));
 
     paginator = (
-      <div>
+      <div className="paginator">
+        Page
         <select onChange={callPageChange}>{pageOptions}</select>
       </div>
     );
   }
 
   return (
-    <div>
-      <div>
-        {lengthType === 'bytes' ? 'Bytes' : 'Members'}: {length}
+    <div className="footer-container">
+      <div className="size">
+        {lengthType === "bytes" ? "Bytes" : "Members"}: {length}
       </div>
-      <div>{keyEncoding}</div>
+      <div className="encoding">Encoding: {keyEncoding}</div>
       {onPageChange ? paginator : null}
     </div>
   );

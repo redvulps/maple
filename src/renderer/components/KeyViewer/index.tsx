@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { RedisClient } from 'redis';
+import React, { useState, useEffect } from "react";
+import { RedisClient } from "redis";
 
-import { IRedisKey } from '../KeyTree';
-import { IBaseTypeProps } from './IBaseTypeProps';
+import { IRedisKey } from "../KeyTree";
+import { IBaseTypeProps } from "./IBaseTypeProps";
 
-import Set from './Set';
-import ZSet from './ZSet';
-import List from './List';
-import Hash from './Hash';
-import String from './String';
+import Set from "./Set";
+import ZSet from "./ZSet";
+import List from "./List";
+import Hash from "./Hash";
+import String from "./String";
+
+import "./index.sass";
 
 const viewComponent: { [key: string]: (props: IBaseTypeProps) => JSX.Element } = {
   string: String,
@@ -41,7 +43,7 @@ const KeyViewer = ({currentKey, redisInstance, currentDatabase}: IKeyViewerProps
     }
 
     return (
-      'Loading...'
+      "Loading..."
     );
   };
 
@@ -63,8 +65,9 @@ const KeyViewer = ({currentKey, redisInstance, currentDatabase}: IKeyViewerProps
   }, [currentKey]);
 
   return (
-    <div>
-      { currentKey ? renderKey() : "No key selected" }
+    <div className="key-viewer-container">
+      <div className="title">{currentKey?.path || "No key selected"}</div>
+      { currentKey && renderKey() || null }
     </div>
   );
 }
