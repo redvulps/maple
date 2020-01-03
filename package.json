@@ -137,6 +137,10 @@
   "dependencies": {
     "@mdi/js": "^4.7.95",
     "@mdi/react": "^1.2.1",
+    "ajv": "^6.10.2",
+    "jsoneditor": "^8.1.1",
+    "jsoneditor-react": "^3.0.0",
+    "normalize.css": "^8.0.1",
     "patch-package": "^6.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
