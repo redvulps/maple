@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
+import Ajv from 'ajv';
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-json";
+
 import { IBaseTypeProps } from "./IBaseTypeProps";
 import Footer from "./Footer";
 
 const String = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => {
-  const [keyValue, setKeyValue] = useState("");
+  const [keyValue, setKeyValue] = useState<string | null>(null);
   const [keyEncoding, setKeyEncoding] = useState("");
   const [keyLoaded, setKeyLoaded] = useState(false);
 
@@ -29,11 +33,32 @@ const String = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) 
       .exec();
   }, [currentKey]);
 
+  let keyEditor = null;
+
+  if (keyLoaded && keyValue !== null) {
+    const ajv = new Ajv({ allErrors: true, schemaId: 'auto' });
+    const validate = ajv.compile(true);
+    const valid = validate(keyValue);
+
+    keyEditor = (
+      <AceEditor
+        mode={valid ? "json" : "raw"}
+        enableBasicAutocompletion={true}
+        enableLiveAutocompletion={true}
+        value={valid ? JSON.stringify(JSON.parse(keyValue), null, 2) : keyValue}
+      />
+    );
+  }
+
   return (
-    <div>
-      <div>{keyLoaded ? keyValue : "Loading..."}</div>
-      <Footer lengthType="bytes" length={Buffer.byteLength(keyValue, "utf-8")} keyEncoding={keyEncoding} />
-    </div>
+    <>
+      <div className="key-viewer-content">{keyLoaded ? keyEditor : "Loading..."}</div>
+      <Footer
+        lengthType="bytes"
+        length={keyValue !== null && Buffer.byteLength(keyValue, "utf-8") || 0}
+        keyEncoding={keyEncoding}
+      />
+    </>
   );
 };
 
