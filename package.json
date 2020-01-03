@@ -135,6 +135,7 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "@babel/plugin-proposal-optional-chaining": "^7.7.5",
     "@mdi/js": "^4.7.95",
     "@mdi/react": "^1.2.1",
     "ajv": "^6.10.2",
