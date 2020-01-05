@@ -42,6 +42,18 @@ module.exports = merge.smart(baseConfig, {
         loaders: ['style-loader', 'css-loader']
       },
       {
+        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/'
+            }
+          }
+        ]
+      },
+      {
         test: /\.(gif|png|jpe?g|svg)$/,
         use: [
           'file-loader',
