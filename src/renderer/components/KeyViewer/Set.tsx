@@ -39,7 +39,7 @@ const Set = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => 
   const renderResult = () => {
     const memberList = keyValue.map((value, index) => (
       <div key={index} onClick={() => setMemberValue(value)}>
-        {value.substring(0, 100)}
+        {value.length > 50 ? `${value.substring(0, 50)}...` : value}
       </div>
     ));
 

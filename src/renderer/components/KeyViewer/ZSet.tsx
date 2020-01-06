@@ -59,7 +59,7 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
     const memberList = keyValue.map((value, index) => (
       <div key={index} onClick={() => setMemberValue(value[0])}>
         <div>{value[1]}</div>
-        <div>{value[0].substring(0, 100)}</div>
+        <div>{value[0].length > 50 ? `${value[0].substring(0, 50)}...` : value[0]}</div>
       </div>
     ));
 
