@@ -4,10 +4,14 @@
 .keytree
   display: flex
   flex-direction: column
+  overflow: auto
 
   .keytree-filter
+    height: 3rem
     padding: $basePadding
     border-bottom: solid $borderWidth var(--border-color)
+    display: flex
+    align-items: center
 
     input
       width: 100%
