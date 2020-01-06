@@ -6,6 +6,7 @@ import "ace-builds/src-noconflict/mode-json";
 
 import { IBaseTypeProps } from "./IBaseTypeProps";
 import Footer from "./Footer";
+import { isJson } from "../../helpers/isJson";
 
 const String = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => {
   const [keyValue, setKeyValue] = useState<string | null>(null);
@@ -37,13 +38,9 @@ const String = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) 
   let keyEditor = null;
 
   if (keyLoaded && keyValue !== null) {
-    const ajv = new Ajv({ allErrors: true, schemaId: 'auto' });
-    const validate = ajv.compile(true);
-    const valid = validate(keyValue);
-
     keyEditor = (
       <AceEditor
-        mode={valid ? "json" : "raw"}
+        mode={isJson(keyValue) ? "json" : "raw"}
         theme="github"
         enableBasicAutocompletion={true}
         value={keyValue}
