@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
+import AceEditor from "react-ace";
+import SplitPane from "react-split-pane";
+import "ace-builds/src-noconflict/theme-github";
+import "ace-builds/src-noconflict/mode-json";
 
 import { IBaseTypeProps } from "./IBaseTypeProps";
 import Footer from "./Footer";
+import { isJson } from "../../helpers/isJson";
 
 const Hash = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => {
   const [keyKeys, setKeyKeys] = useState<string[]>([]);
   const [keyEncoding, setKeyEncoding] = useState("");
-  const [memberValue, setMemberValue] = useState("");
+  const [memberValue, setMemberValue] = useState<null | string>(null);
   const [hashLength, setHashLength] = useState(0);
   const [keyLoaded, setKeyLoaded] = useState(false);
 
@@ -60,15 +65,30 @@ const Hash = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
       </div>
     ));
 
+    let memberValueView: string | JSX.Element = "No member selected";
+
+    if (memberValue !== null) {
+      memberValueView = (
+        <AceEditor
+          mode={isJson(memberValue) ? "json" : "raw"}
+          theme="github"
+          enableBasicAutocompletion={true}
+          value={memberValue}
+          width="100%"
+          height="100%"
+        />
+      );
+    }
+
     return (
-      <div>
-        <div>
-          {memberList}
-        </div>
-        <div>
-          {memberValue}
-        </div>
-      </div>
+      <SplitPane split="vertical" defaultSize={200}>
+        <>
+          <div>
+            {memberList}
+          </div>
+        </>
+        {memberValueView}
+      </SplitPane>
     );
   };
 

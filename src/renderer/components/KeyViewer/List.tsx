@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import AceEditor from "react-ace";
+import SplitPane from "react-split-pane";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/mode-json";
 
 import { IBaseTypeProps } from "./IBaseTypeProps";
 import Footer from "./Footer";
-import SplitPane from "react-split-pane";
 import { isJson } from "../../helpers/isJson";
 
 const List = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => {
