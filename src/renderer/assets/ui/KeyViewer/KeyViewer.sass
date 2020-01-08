@@ -5,12 +5,21 @@
   flex: 1
   flex-direction: column
 
-  .keyviewer-title
+  .keyviewer-header
     padding: $basePadding
     border-bottom: solid $borderWidth var(--border-color)
     height: 3rem
     display: flex
     align-items: center
+  
+  .keyviewer-title
+    flex: 1
+  
+  .keyviewer-key-type
+    border-radius: $baseRadius
+    padding: $basePadding
+
+    @include key-type-colors
 
   .keyviewer-content
     flex: 1

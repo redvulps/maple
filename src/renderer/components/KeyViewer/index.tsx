@@ -22,9 +22,10 @@ export interface IKeyViewerProps {
   redisInstance: RedisClient;
   currentDatabase: number;
   currentKey: IRedisKey | null;
+  currentKeyType: string;
 }
 
-const KeyViewer = ({currentKey, redisInstance, currentDatabase}: IKeyViewerProps) => {
+const KeyViewer = ({ currentKey, currentKeyType, redisInstance, currentDatabase}: IKeyViewerProps) => {
   const [keyView, setKeyView] = useState<string | null>(null);
 
   const renderKey = () => {
@@ -62,9 +63,26 @@ const KeyViewer = ({currentKey, redisInstance, currentDatabase}: IKeyViewerProps
     }
   }, [currentKey]);
 
+  const renderKeyInfo = () => {
+    if (!currentKey) {
+      return (
+        <div className="keyviewer-header">
+          <div className="keyviewer-title">No key selected</div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="keyviewer-header">
+        <div className="keyviewer-title">{currentKey.path}</div>
+        <div className={`keyviewer-key-type ${currentKeyType}`}>{currentKeyType.toUpperCase()}</div>
+      </div>
+    );
+  }
+
   return (
     <div className="keyviewer">
-      <div className="keyviewer-title">{currentKey?.path || "No key selected"}</div>
+      {renderKeyInfo()}
       { currentKey && renderKey() || null }
     </div>
   );

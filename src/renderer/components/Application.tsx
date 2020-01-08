@@ -17,6 +17,7 @@ const Application = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [currentDatabase, setCurrentDatabase] = useState(0);
   const [currentKey, setCurrentKey] = useState<IRedisKey | null>(null);
+  const [currentKeyType, setCurrentKeyType] = useState<string>("");
 
   let rootView = null;
   const onConnect = async (host: string, port:string) => {
@@ -48,6 +49,11 @@ const Application = () => {
     });
   };
 
+  const handleSelectdKey = (key: IRedisKey, keyType: string) => {
+    setCurrentKey(key);
+    setCurrentKeyType(keyType);
+  }
+
   if (isConnected) {
     rootView = (
       <div className="app">
@@ -61,7 +67,7 @@ const Application = () => {
               <KeyTree
                 redisInstance={redisInstance}
                 currentDatabase={currentDatabase}
-                onSelectKey={(key: IRedisKey) => setCurrentKey(key)}
+                onSelectKey={handleSelectdKey}
               />
             </>
             <>
@@ -70,6 +76,7 @@ const Application = () => {
                 redisInstance={redisInstance}
                 currentDatabase={currentDatabase}
                 currentKey={currentKey}
+                currentKeyType={currentKeyType}
               />
             </>
           </SplitPane>

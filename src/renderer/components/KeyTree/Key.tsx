@@ -6,11 +6,11 @@ export interface IKeyProps {
   redisKey: IRedisKey;
   keyType: string;
   deepness: number;
-  onClick: (key: IRedisKey) => void;
+  onClick: (key: IRedisKey, keyType: string) => void;
 }
 
 const Key = ({ deepness, keyType, onClick, redisKey }: IKeyProps) => (
-  <div className="keytree__key" onClick={() => onClick(redisKey)}>
+  <div className="keytree__key" onClick={() => onClick(redisKey, keyType)}>
     <span
       className={`key-type ${keyType}`}
       style={{ marginLeft: `${deepness * 24}px` }}

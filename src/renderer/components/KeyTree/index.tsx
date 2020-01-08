@@ -8,7 +8,7 @@ import Key from "./Key";
 export interface IKeyTreeProps {
   redisInstance: Redis.RedisClient;
   currentDatabase: number;
-  onSelectKey: (key: IRedisKey) => void;
+  onSelectKey: (key: IRedisKey, keyType: string) => void;
 }
 
 export interface IRedisKey {
