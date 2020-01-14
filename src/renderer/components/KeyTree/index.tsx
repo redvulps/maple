@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import Redis from "redis";
-const { promisify } = require("util");
+import { promisify } from "util";
 
 import Folder from "./Folder";
 import Key from "./Key";
@@ -42,7 +42,7 @@ const KeyTree = (props: IKeyTreeProps) => {
           const pipeline = redisInstance.multi();
           const typeAsync = promisify(pipeline.type).bind(pipeline);
 
-          const newKeys: Array<IRedisKey> = result[1].map((key: string) => {
+          const newKeys: IRedisKey[] = result[1].map((key: string) => {
             const keyParts = key.split(":");
             typeAsync(key);
 
@@ -61,7 +61,7 @@ const KeyTree = (props: IKeyTreeProps) => {
               return { ...acc, ...current };
             }, {});
 
-            setKeyTypes(resultKeyTypes);
+          setKeyTypes(resultKeyTypes);
 
           if (newKeys.length) {
             setKeys(newKeys.concat(keys));
@@ -80,8 +80,8 @@ const KeyTree = (props: IKeyTreeProps) => {
   };
 
   const keysToTree = () => {
+    const newTree: Record<string, IRedisKey> = {};
     let lastTree: Record<string, IRedisKey> = {};
-    let newTree: Record<string, IRedisKey> = {};
     let lastKey = "";
 
     const subKeyToTree = (subkey: string) => {
@@ -91,7 +91,7 @@ const KeyTree = (props: IKeyTreeProps) => {
           name: subkey,
           expanded: false,
           children: {}
-        }
+        };
       }
 
       lastKey += `${subkey}:`;
@@ -108,11 +108,11 @@ const KeyTree = (props: IKeyTreeProps) => {
     keys.forEach(keyToTree);
 
     setTree(newTree);
-  }
+  };
 
   const toggleExpand = (key: IRedisKey) => {
     let newExpanded;
-    const isExpanded = expanded.find((e) => e == key.path);
+    const isExpanded = expanded.find((e) => e === key.path);
 
     if (isExpanded) {
       newExpanded = expanded.filter((e) => e !== key.path);
@@ -121,13 +121,13 @@ const KeyTree = (props: IKeyTreeProps) => {
     }
 
     setExpanded(newExpanded);
-  }
+  };
 
   const renderTree = (keys: Record <string, IRedisKey>, deepness: number = 0) => {
     const keyTree = Object.keys(keys).map((keyName: string) => {
       const key: IRedisKey = keys[keyName];
       const childrenLength = Object.keys(key.children).length;
-      const isExpanded = !!expanded.find((e) => e == key.path);
+      const isExpanded = !!expanded.find((e) => e === key.path);
 
       let childrenContainer = null;
 
@@ -143,19 +143,20 @@ const KeyTree = (props: IKeyTreeProps) => {
             childrenKeys={childrenContainer}
             expanded={isExpanded}
             onToggleExpand={toggleExpand}
-            deepness={deepness} />
-        );
-      } else {
-        return (
-          <Key
-            key={key.path}
-            redisKey={key}
-            keyType={keyTypes[key.path]}
             deepness={deepness}
-            onClick={onSelectKey}
           />
-        )
+        );
       }
+
+      return (
+        <Key
+          key={key.path}
+          redisKey={key}
+          keyType={keyTypes[key.path]}
+          deepness={deepness}
+          onClick={onSelectKey}
+        />
+      );
     });
 
     if (keyTree.length) {
@@ -163,7 +164,7 @@ const KeyTree = (props: IKeyTreeProps) => {
     }
 
     return (
-      <div>
+      <div className="empty">
         <div>Database is empty</div>
         <button>Add a key</button>
       </div>
@@ -181,6 +182,8 @@ const KeyTree = (props: IKeyTreeProps) => {
       />
     ));
   };
+
+  const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => setSearchKeyword(e.target.value);
 
   useEffect(() => {
     if (!isScanning) {
@@ -209,7 +212,7 @@ const KeyTree = (props: IKeyTreeProps) => {
   return (
     <div className="keytree">
       <div className="keytree-filter">
-        <input type="text" onChange={(e) => setSearchKeyword(e.target.value)} />
+        <input type="text" onChange={handleKeywordChange} />
       </div>
       <div className="keytree-list">
         {searchKeyword.length ? renderSearch() : renderTree(tree)}

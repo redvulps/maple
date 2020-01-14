@@ -4,7 +4,7 @@
 .keytree
   display: flex
   flex-direction: column
-  overflow: auto
+  height: 100%
 
   .keytree-filter
     height: 3rem
@@ -18,5 +18,13 @@
 
   .keytree-list
     display: flex
+    flex: 1
     flex-direction: column
     padding: $basePadding
+
+    .empty
+      display: flex
+      flex: 1
+      align-items: center
+      justify-content: center
+      flex-direction: column
