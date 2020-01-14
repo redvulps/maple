@@ -18,7 +18,7 @@ const List = ({headers, columns}: any) => {
       const columnsInRow = columns.map((column: any) => column[rowIndex]);
 
       return columnsInRow.map((column: any, columnIndex: number) => (
-        <div className="column" key={columnIndex} style={columnIndex === 0 ? { width: `${columnWidth}px` } : {}}>
+        <div className="column" key={`${rowIndex}.${columnIndex}`} style={columnIndex === 0 ? { width: `${columnWidth}px` } : {}}>
           {column}
         </div>
       ));
