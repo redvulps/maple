@@ -24,7 +24,8 @@
     "jsx-self-close": true,
     "quotemark": [true, "double"],
     "ter-arrow-parens": [true, "always"],
-    "radix": false
+    "radix": false,
+    "no-increment-decrement": false
   },
   "rulesDirectory": []
 }
