@@ -59,8 +59,8 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
   const renderResult = () => {
     const columns: JSX.Element[][] = [[], []];
     const headers = [
-      <div>Key</div>,
-      <div>Value</div>
+      <div key="header.0">Key</div>,
+      <div key="header.1">Value</div>
     ];
 
     keyValue.forEach((value, index) => {

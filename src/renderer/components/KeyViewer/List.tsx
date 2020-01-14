@@ -9,7 +9,7 @@ import Footer from "./Footer";
 import { isJson } from "../../helpers/isJson";
 import ListView from "../List";
 
-const ListX = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => {
+const List = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => {
   const [keyValue, setKeyValue] = useState<string[]>([]);
   const [keyEncoding, setKeyEncoding] = useState("");
   const [memberValue, setMemberValue] = useState<null | string>(null);
@@ -50,8 +50,8 @@ const ListX = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =
   const renderResult = () => {
     const columns: JSX.Element[][] = [[], []];
     const headers = [
-      <div>Index</div>,
-      <div>Value</div>
+      <div key="header.0">Index</div>,
+      <div key="header.1">Value</div>
     ];
 
     keyValue.forEach((value, index) => {
@@ -109,4 +109,4 @@ const ListX = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =
   );
 };
 
-export default ListX;
+export default List;
