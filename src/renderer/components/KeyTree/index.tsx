@@ -189,6 +189,12 @@ const KeyTree = (props: IKeyTreeProps) => {
   }, [isScanning]);
 
   useEffect(() => {
+    setKeys([]);
+    setFilteredKeys([]);
+    setExpanded([]);
+    setSearchKeyword("");
+    setTree({});
+    setKeyTypes({});
     scanForKeys();
   }, [currentDatabase]);
 
