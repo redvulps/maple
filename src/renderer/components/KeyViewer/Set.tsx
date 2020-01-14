@@ -39,7 +39,7 @@ const Set = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => 
 
   const renderResult = () => {
     const headers = [
-      <div>Member</div>
+      <div key="header.0">Member</div>
     ];
 
     const columns = keyValue.map((value, index) => ([

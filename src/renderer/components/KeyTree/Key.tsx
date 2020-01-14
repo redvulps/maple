@@ -9,16 +9,20 @@ export interface IKeyProps {
   onClick: (key: IRedisKey, keyType: string) => void;
 }
 
-const Key = ({ deepness, keyType, onClick, redisKey }: IKeyProps) => (
-  <div className="keytree__key" onClick={() => onClick(redisKey, keyType)}>
-    <span
-      className={`key-type ${keyType}`}
-      style={{ marginLeft: `${deepness * 24}px` }}
-    >
-      {keyType.toUpperCase()[0]}
-    </span>
-    <span className="key-description">{redisKey.name}</span>
-  </div>
-);
+const Key = ({ deepness, keyType, onClick, redisKey }: IKeyProps) => {
+  const handleClick = () => onClick(redisKey, keyType);
+
+  return (
+    <div className="keytree__key" onClick={handleClick}>
+      <span
+        className={`key-type ${keyType}`}
+        style={{ marginLeft: `${deepness * 24}px` }}
+      >
+        {keyType.toUpperCase()[0]}
+      </span>
+      <span className="key-description">{redisKey.name}</span>
+    </div>
+  );
+};
 
 export default Key;

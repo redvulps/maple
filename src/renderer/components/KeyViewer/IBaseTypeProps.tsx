@@ -5,4 +5,4 @@ export interface IBaseTypeProps {
   redisInstance: RedisClient;
   currentDatabase: number;
   currentKey: IRedisKey;
-};
+}

@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import Icon from '@mdi/react';
+import Icon from "@mdi/react";
 import { mdiFolderOpen, mdiFolder } from "@mdi/js";
 
 import { IRedisKey } from ".";
@@ -14,10 +14,11 @@ export interface IFolderProps {
 
 const Folder = (props: IFolderProps) => {
   const { childrenKeys, deepness, expanded, redisKey, onToggleExpand } = props;
+  const handleToggleExpand = () => onToggleExpand(redisKey);
 
   return (
     <>
-      <div className="keytree__folder" onClick={() => onToggleExpand(redisKey)}>
+      <div className="keytree__folder" onClick={handleToggleExpand}>
         <span className="folder-icon" style={{ marginLeft: `${deepness * 24}px` }}>
           <Icon color="white" path={expanded ? mdiFolderOpen : mdiFolder} />
         </span>

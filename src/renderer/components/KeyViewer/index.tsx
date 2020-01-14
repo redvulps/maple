@@ -25,7 +25,7 @@ export interface IKeyViewerProps {
   currentKeyType: string;
 }
 
-const KeyViewer = ({ currentKey, currentKeyType, redisInstance, currentDatabase}: IKeyViewerProps) => {
+const KeyViewer = ({ currentKey, currentKeyType, redisInstance, currentDatabase }: IKeyViewerProps) => {
   const [keyView, setKeyView] = useState<string | null>(null);
 
   const renderKey = () => {
@@ -78,14 +78,14 @@ const KeyViewer = ({ currentKey, currentKeyType, redisInstance, currentDatabase}
         <div className={`keyviewer-key-type ${currentKeyType}`}>{currentKeyType.toUpperCase()}</div>
       </div>
     );
-  }
+  };
 
   return (
     <div className="keyviewer">
       {renderKeyInfo()}
-      { currentKey && renderKey() || null }
+      {currentKey && renderKey() || null}
     </div>
   );
-}
+};
 
 export default KeyViewer;

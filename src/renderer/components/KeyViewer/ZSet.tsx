@@ -42,8 +42,10 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
           setKeyLoaded(true);
 
           const fixedResult = Array(result.length / 2).fill(0).map((_, index) => {
-            if (index > 0) {
-              index++;
+            let currentIndex = index;
+
+            if (currentIndex > 0) {
+              currentIndex++;
             }
 
             return [result[index], result[index + 1]];
@@ -64,14 +66,16 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
     ];
 
     keyValue.forEach((value, index) => {
+      const handleMemberClick = () => setMemberValue(value[0]);
+
       columns[0].push(
-        <div key={`0.${index}`} onClick={() => setMemberValue(value[0])}>
+        <div key={`0.${index}`} onClick={handleMemberClick}>
           <div>{value[1]}</div>
         </div>
       );
 
       columns[1].push(
-        <div key={`1.${index}`} onClick={() => setMemberValue(value[0])}>
+        <div key={`1.${index}`} onClick={handleMemberClick}>
           <div>{value[0].length > 50 ? `${value[0].substring(0, 50)}...` : value[0]}</div>
         </div>
       );
@@ -104,13 +108,15 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
     );
   };
 
+  const handlePageChange = (page: number) => setPage(page);
+
   return (
     <>
       <div className="keyviewer-content">{keyLoaded ? renderResult() : "Loading..."}</div>
       <Footer
         lengthType="members"
         length={zsetLength}
-        onPageChange={(page) => setPage(page)}
+        onPageChange={handlePageChange}
         keyEncoding={keyEncoding}
         totalPages={totalPages}
       />

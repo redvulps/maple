@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 interface INewConnectionProps {
   onConnect: (host:string, port:string) => void;
@@ -46,7 +46,7 @@ const NewConnection = (props: INewConnectionProps) => {
       </div>
       <div className="buttons">
         <button type="button" onClick={() => onConnect(host, port)}>Connect</button>
-        { favoriteActions }
+        {favoriteActions}
       </div>
     </div>
   );

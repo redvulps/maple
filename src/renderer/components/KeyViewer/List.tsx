@@ -90,7 +90,7 @@ const List = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
           headers={headers}
           columns={columns}
         />
-        { memberValueView }
+        {memberValueView}
       </SplitPane>
     );
   };

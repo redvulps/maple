@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SplitPane from "react-split-pane";
 
-const List = ({headers, columns}: any) => {
+const List = ({ headers, columns }: any) => {
   const [columnWidth, setColumnWidth] = useState(100);
   let rowList;
 
@@ -29,7 +29,7 @@ const List = ({headers, columns}: any) => {
         <div className="row" key={index}>
           {row}
         </div>
-      )
+      );
     });
 
     return (
@@ -64,6 +64,6 @@ const List = ({headers, columns}: any) => {
       </div>
     </div>
   );
-}
+};
 
 export default List;

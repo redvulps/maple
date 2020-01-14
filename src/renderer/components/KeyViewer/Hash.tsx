@@ -57,11 +57,11 @@ const Hash = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
         }
       })
       .exec();
-  }
+  };
 
   const renderResult = () => {
     const headers = [
-      <div>Key</div>
+      <div key="header.0">Key</div>
     ];
 
     const memberList = keyKeys.map((value, index) => ([
