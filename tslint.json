@@ -21,7 +21,10 @@
     "jsx-alignment": true,
     "jsx-equals-spacing": [true, "never"],
     "jsx-no-string-ref": true,
-    "jsx-self-close": true
+    "jsx-self-close": true,
+    "quotemark": [true, "double"],
+    "ter-arrow-parens": [true, "always"],
+    "radix": false
   },
   "rulesDirectory": []
 }
