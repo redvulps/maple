@@ -59,6 +59,7 @@ const Set = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => 
           value={memberValue}
           width="100%"
           height="100%"
+          setOptions={{ useWorker: false }}
         />
       );
     }
