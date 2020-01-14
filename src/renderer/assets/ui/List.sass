@@ -1,0 +1,30 @@
+.list
+  .list-header
+    height: 24px
+    border-bottom: solid 1px var(--border-color)
+
+    .SplitPane
+      z-index: 0
+
+    
+    .header, .SplitPane .Pane
+      height: 24px
+      display: flex
+      align-items: center
+      padding: $basePadding
+
+  .list-content
+    position: absolute
+    z-index: 1
+    width: 100%
+
+    .row
+      display: flex
+      flex-direction: row
+    
+    .column
+      flex: 0 0 auto
+      padding: $basePadding
+
+      &:last-child
+        flex: 1 1 auto
