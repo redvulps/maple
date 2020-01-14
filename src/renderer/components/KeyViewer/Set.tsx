@@ -7,6 +7,7 @@ import "ace-builds/src-noconflict/mode-json";
 import { IBaseTypeProps } from "./IBaseTypeProps";
 import Footer from "./Footer";
 import { isJson } from "../../helpers/isJson";
+import ListView from "../List";
 
 const Set = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => {
   const [keyValue, setKeyValue] = useState<string[]>([]);
@@ -37,11 +38,15 @@ const Set = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => 
   }, [currentKey]);
 
   const renderResult = () => {
-    const memberList = keyValue.map((value, index) => (
+    const headers = [
+      <div>Member</div>
+    ];
+
+    const columns = keyValue.map((value, index) => ([
       <div key={index} onClick={() => setMemberValue(value)}>
         {value.length > 50 ? `${value.substring(0, 50)}...` : value}
       </div>
-    ));
+    ]));
 
     let memberValueView: string | JSX.Element = "No member selected";
 
@@ -60,11 +65,10 @@ const Set = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => 
 
     return (
       <SplitPane split="vertical" defaultSize={200}>
-        <>
-          <div>
-            {memberList}
-          </div>
-        </>
+        <ListView
+          headers={headers}
+          columns={columns}
+        />
         {memberValueView}
       </SplitPane>
     );
