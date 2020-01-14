@@ -7,6 +7,7 @@ import "ace-builds/src-noconflict/mode-json";
 import { IBaseTypeProps } from "./IBaseTypeProps";
 import Footer from "./Footer";
 import { isJson } from "../../helpers/isJson";
+import ListView from "../List";
 
 const List = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => {
   const [keyValue, setKeyValue] = useState<string[]>([]);
@@ -47,12 +48,20 @@ const List = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
 
   const totalPages = listLength > 100 ? Math.round(listLength / 100) : 1;
   const renderResult = () => {
-    const memberList = keyValue.map((value, index) => (
-      <div key={index} onClick={() => setMemberValue(value)}>
-        <div>{index}</div>
-        <div>{value.length > 50 ? `${value.substring(0, 50)}...` : value}</div>
-      </div>
-    ));
+    const columns: JSX.Element[][] = [[], []];
+    const memberList = keyValue.map((value, index) => {
+      columns[0].push(
+        <div key={index} onClick={() => setMemberValue(value)}>
+          {index}
+        </div>
+      );
+
+      columns[1].push(
+        <div key={index} onClick={() => setMemberValue(value)}>
+          {value.length > 50 ? `${value.substring(0, 50)}...` : value}
+        </div>
+      );
+    });
 
     let memberValueView: string | JSX.Element = "No member selected";
 
@@ -69,13 +78,17 @@ const List = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
       );
     }
 
+    const headers = [
+      <div>Index</div>,
+      <div>Value</div>
+    ];
+
     return (
       <SplitPane split="vertical" defaultSize={200}>
-        <>
-          <div>
-            {memberList}
-          </div>
-        </>
+        <ListView
+          headers={headers}
+          columns={columns}
+        />
         { memberValueView }
       </SplitPane>
     );
