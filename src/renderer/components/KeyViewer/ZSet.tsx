@@ -4,8 +4,9 @@ import SplitPane from "react-split-pane";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/mode-json";
 
-import { IBaseTypeProps } from "./IBaseTypeProps";
 import Footer from "./Footer";
+import ListView from "../List";
+import { IBaseTypeProps } from "./IBaseTypeProps";
 import { isJson } from "../../helpers/isJson";
 
 const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => {
@@ -56,12 +57,25 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
 
   const totalPages = zsetLength > 100 ? Math.round(zsetLength / 100) : 1;
   const renderResult = () => {
-    const memberList = keyValue.map((value, index) => (
-      <div key={index} onClick={() => setMemberValue(value[0])}>
-        <div>{value[1]}</div>
-        <div>{value[0].length > 50 ? `${value[0].substring(0, 50)}...` : value[0]}</div>
-      </div>
-    ));
+    const columns: JSX.Element[][] = [[], []];
+    const headers = [
+      <div>Key</div>,
+      <div>Value</div>
+    ];
+
+    keyValue.forEach((value, index) => {
+      columns[0].push(
+        <div key={`0.${index}`} onClick={() => setMemberValue(value[0])}>
+          <div>{value[1]}</div>
+        </div>
+      );
+
+      columns[1].push(
+        <div key={`1.${index}`} onClick={() => setMemberValue(value[0])}>
+          <div>{value[0].length > 50 ? `${value[0].substring(0, 50)}...` : value[0]}</div>
+        </div>
+      );
+    });
 
     let memberValueView: string | JSX.Element = "No member selected";
 
@@ -74,17 +88,17 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
           value={memberValue}
           width="100%"
           height="100%"
+          setOptions={{ useWorker: false }}
         />
       );
     }
 
     return (
       <SplitPane split="vertical" defaultSize={200}>
-        <>
-          <div>
-            {memberList}
-          </div>
-        </>
+        <ListView
+          headers={headers}
+          columns={columns}
+        />
         {memberValueView}
       </SplitPane>
     );

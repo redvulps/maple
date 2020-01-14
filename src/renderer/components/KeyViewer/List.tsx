@@ -9,7 +9,7 @@ import Footer from "./Footer";
 import { isJson } from "../../helpers/isJson";
 import ListView from "../List";
 
-const List = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => {
+const ListX = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => {
   const [keyValue, setKeyValue] = useState<string[]>([]);
   const [keyEncoding, setKeyEncoding] = useState("");
   const [memberValue, setMemberValue] = useState<null | string>(null);
@@ -49,15 +49,20 @@ const List = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
   const totalPages = listLength > 100 ? Math.round(listLength / 100) : 1;
   const renderResult = () => {
     const columns: JSX.Element[][] = [[], []];
-    const memberList = keyValue.map((value, index) => {
+    const headers = [
+      <div>Index</div>,
+      <div>Value</div>
+    ];
+
+    keyValue.forEach((value, index) => {
       columns[0].push(
-        <div key={index} onClick={() => setMemberValue(value)}>
+        <div key={`0.${index}`} onClick={() => setMemberValue(value)}>
           {index}
         </div>
       );
 
       columns[1].push(
-        <div key={index} onClick={() => setMemberValue(value)}>
+        <div key={`1.${index}`} onClick={() => setMemberValue(value)}>
           {value.length > 50 ? `${value.substring(0, 50)}...` : value}
         </div>
       );
@@ -74,14 +79,10 @@ const List = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
           value={memberValue}
           width="100%"
           height="100%"
+          setOptions={{ useWorker: false }}
         />
       );
     }
-
-    const headers = [
-      <div>Index</div>,
-      <div>Value</div>
-    ];
 
     return (
       <SplitPane split="vertical" defaultSize={200}>
@@ -108,4 +109,4 @@ const List = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
   );
 };
 
-export default List;
+export default ListX;
