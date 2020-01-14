@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Ajv from 'ajv';
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/mode-json";
@@ -46,6 +45,7 @@ const String = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) 
         value={keyValue}
         width="100%"
         height="100%"
+        setOptions={{ useWorker: false }}
       />
     );
   }
