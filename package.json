@@ -103,7 +103,7 @@
     "@types/react-test-renderer": "^16.8.1",
     "@types/redis": "^2.8.14",
     "@types/webdriverio": "^5.0.0",
-    "@types/webpack-env": "^1.13.3",
+    "@types/webpack-env": "^1.15.0",
     "babel-loader": "^8.0.6",
     "cross-env": "^6.0.3",
     "css-loader": "^3.4.0",
