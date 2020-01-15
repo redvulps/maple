@@ -22,7 +22,7 @@ export interface IKeyViewerProps {
   redisInstance: RedisClient;
   currentDatabase: number;
   currentKey: IRedisKey | null;
-  currentKeyType: string;
+  currentKeyType: string | null;
 }
 
 const KeyViewer = ({ currentKey, currentKeyType, redisInstance, currentDatabase }: IKeyViewerProps) => {

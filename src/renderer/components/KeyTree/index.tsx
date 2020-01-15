@@ -8,7 +8,7 @@ import Key from "./Key";
 export interface IKeyTreeProps {
   redisInstance: Redis.RedisClient;
   currentDatabase: number;
-  onSelectKey: (key: IRedisKey, keyType: string) => void;
+  onSelectKey: (key: IRedisKey | null, keyType: string | null) => void;
 }
 
 export interface IRedisKey {
@@ -192,14 +192,8 @@ const KeyTree = (props: IKeyTreeProps) => {
   }, [isScanning]);
 
   useEffect(() => {
-    setKeys([]);
-    setFilteredKeys([]);
-    setExpanded([]);
-    setSearchKeyword("");
-    setTree({});
-    setKeyTypes({});
     scanForKeys();
-  }, [currentDatabase]);
+  }, []);
 
   useEffect(() => {
     if (searchKeyword.length) {
