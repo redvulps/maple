@@ -18,6 +18,11 @@ export interface IRedisKey {
   children: Record<string, IRedisKey>;
 }
 
+interface KeyScanResult {
+  keys: IRedisKey[];
+  types: { [key: string]: string };
+}
+
 const KeyTree = (props: IKeyTreeProps) => {
   const { currentDatabase, redisInstance, onSelectKey } = props;
 
@@ -29,54 +34,57 @@ const KeyTree = (props: IKeyTreeProps) => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [keyTypes, setKeyTypes] = useState<{ [key: string]: string }>({});
 
-  const scanForKeys = (cursor = 0) => {
-    setIsScanning(true);
+  const scanForKeys = async (cursor = 0): Promise<KeyScanResult> => {
+    return new Promise((accept, reject) => {
+      redisInstance.multi()
+        .select(currentDatabase)
+        .scan(cursor.toString(), async (err, result: [string, string[]]) => {
+          if (err) {
+            // TODO: Add error handler
+          } else {
+            const nextCursor = parseInt(result[0]);
+            const pipeline = redisInstance.multi();
+            const typeAsync = promisify(pipeline.type).bind(pipeline);
 
-    redisInstance.multi()
-      .select(currentDatabase)
-      .scan(cursor.toString(), async (err, result: [string, string[]]) => {
-        if (err) {
-          // TODO: Add error handler
-        } else {
-          const nextCursor = parseInt(result[0]);
-          const pipeline = redisInstance.multi();
-          const typeAsync = promisify(pipeline.type).bind(pipeline);
+            const newKeys: IRedisKey[] = result[1].map((key: string) => {
+              const keyParts = key.split(":");
+              typeAsync(key);
 
-          const newKeys: IRedisKey[] = result[1].map((key: string) => {
-            const keyParts = key.split(":");
-            typeAsync(key);
+              return {
+                name: keyParts[keyParts.length - 1],
+                path: key,
+                expanded: false,
+                children: {}
+              };
+            });
 
-            return {
-              name: keyParts[keyParts.length - 1],
-              path: key,
-              expanded: false,
-              children: {}
-            };
-          });
+            const typeList = await promisify(pipeline.exec).bind(pipeline)();
+            const resultKeyTypes: { [key: string]: string } = result[1]
+              .map((key: string, index) => ({ [key]: typeList[index] }))
+              .reduce((acc, current: any) => {
+                return { ...acc, ...current };
+              }, {});
 
-          const typeList = await promisify(pipeline.exec).bind(pipeline)();
-          const resultKeyTypes: { [key: string]: string } = result[1]
-            .map((key: string, index) => ({ [key]: typeList[index] }))
-            .reduce((acc, current: any) => {
-              return { ...acc, ...current };
-            }, {});
+            if (nextCursor === 0) {
+              accept({
+                keys: newKeys,
+                types: resultKeyTypes
+              });
+            } else {
+              const scanResult = await scanForKeys(nextCursor);
 
-          setKeyTypes(resultKeyTypes);
-
-          if (newKeys.length) {
-            setKeys(newKeys.concat(keys));
-
-            if (nextCursor !== 0) {
-              scanForKeys(nextCursor);
+              accept({
+                keys: newKeys.concat(scanResult.keys),
+                types: {
+                  ...scanResult.types,
+                  ...resultKeyTypes
+                },
+              });
             }
           }
-
-          if (nextCursor === 0) {
-            setIsScanning(false);
-          }
-        }
-      })
-      .exec();
+        })
+        .exec();
+    });
   };
 
   const keysToTree = () => {
@@ -124,6 +132,14 @@ const KeyTree = (props: IKeyTreeProps) => {
   };
 
   const renderTree = (keys: Record <string, IRedisKey>, deepness: number = 0) => {
+    if (isScanning) {
+      return (
+        <div className="loading">
+          Loading...
+        </div>
+      );
+    }
+
     const keyTree = Object.keys(keys).map((keyName: string) => {
       const key: IRedisKey = keys[keyName];
       const childrenLength = Object.keys(key.children).length;
@@ -186,13 +202,23 @@ const KeyTree = (props: IKeyTreeProps) => {
   const handleKeywordChange = (e: ChangeEvent<HTMLInputElement>) => setSearchKeyword(e.target.value);
 
   useEffect(() => {
-    if (!isScanning) {
+    if (keys.length) {
       keysToTree();
     }
-  }, [isScanning]);
+  }, [keys]);
 
   useEffect(() => {
-    scanForKeys();
+    setIsScanning(true);
+
+    const getKeys = async () => {
+      const scanResult = await scanForKeys();
+
+      setKeys(scanResult.keys);
+      setKeyTypes(scanResult.types);
+      setIsScanning(false);
+    };
+
+    getKeys();
   }, []);
 
   useEffect(() => {
