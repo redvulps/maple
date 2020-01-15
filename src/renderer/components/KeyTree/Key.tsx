@@ -18,7 +18,7 @@ const Key = ({ deepness, keyType, onClick, redisKey }: IKeyProps) => {
         className={`key-type ${keyType}`}
         style={{ marginLeft: `${deepness * 24}px` }}
       >
-        {keyType.toUpperCase()[0]}
+        {keyType && keyType.toUpperCase()[0]}
       </span>
       <span className="key-description">{redisKey.name}</span>
     </div>
