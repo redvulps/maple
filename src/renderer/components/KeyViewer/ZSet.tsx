@@ -42,13 +42,9 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
           setKeyLoaded(true);
 
           const fixedResult = Array(result.length / 2).fill(0).map((_, index) => {
-            let currentIndex = index;
+            const nextIndex = index * 2;
 
-            if (currentIndex > 0) {
-              currentIndex++;
-            }
-
-            return [result[index], result[index + 1]];
+            return [result[nextIndex], result[nextIndex + 1]];
           });
 
           setKeyValue(fixedResult);
