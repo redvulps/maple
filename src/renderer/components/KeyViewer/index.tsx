@@ -64,7 +64,7 @@ const KeyViewer = ({ currentKey, currentKeyType, redisInstance, currentDatabase 
   }, [currentKey]);
 
   const renderKeyInfo = () => {
-    if (!currentKey) {
+    if (currentKey === null || currentKeyType === null) {
       return (
         <div className="keyviewer-header">
           <div className="keyviewer-title">No key selected</div>
