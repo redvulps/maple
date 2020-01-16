@@ -60,15 +60,20 @@ const Hash = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
   };
 
   const renderResult = () => {
+    const columns: JSX.Element[][] = [[]];
     const headers = [
       <div key="header.0">Key</div>
     ];
 
-    const memberList = keyKeys.map((value, index) => ([
-      <div key={index} onClick={() => loadHashValue(value)}>
-        {value.length > 50 ? `${value.substring(0, 50)}...` : value}
-      </div>
-    ]));
+    keyKeys.forEach((value, index) => {
+      const handleClick = () => loadHashValue(value);
+
+      columns[0].push(
+        <div key={index} onClick={handleClick}>
+          {value.length > 50 ? `${value.substring(0, 50)}...` : value}
+        </div>
+      );
+    });
 
     let memberValueView: string | JSX.Element = "No member selected";
 
@@ -90,7 +95,7 @@ const Hash = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
       <SplitPane split="vertical" defaultSize={200}>
         <List
           headers={headers}
-          columns={memberList}
+          columns={columns}
         />
         {memberValueView}
       </SplitPane>
