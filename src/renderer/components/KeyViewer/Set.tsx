@@ -38,15 +38,20 @@ const Set = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) => 
   }, [currentKey]);
 
   const renderResult = () => {
+    const columns: JSX.Element[][] = [[]];
     const headers = [
       <div key="header.0">Member</div>
     ];
 
-    const columns = keyValue.map((value, index) => ([
-      <div key={index} onClick={() => setMemberValue(value)}>
-        {value.length > 50 ? `${value.substring(0, 50)}...` : value}
-      </div>
-    ]));
+    keyValue.forEach((value, index) => {
+      const handleClick = () => setMemberValue(value);
+
+      columns[0].push(
+        <div key={index} onClick={handleClick}>
+          {value.length > 50 ? `${value.substring(0, 50)}...` : value}
+        </div>
+      );
+    });
 
     let memberValueView: string | JSX.Element = "No member selected";
 
