@@ -3,6 +3,7 @@ import SplitPane from "react-split-pane";
 
 const List = ({ headers, columns }: any) => {
   const [columnWidth, setColumnWidth] = useState(100);
+  const [selectedRow, setSelectedRow] = useState<number | null>(null);
   let rowList;
 
   if (!columns.length) {
@@ -46,13 +47,17 @@ const List = ({ headers, columns }: any) => {
     );
   }
 
-  rowList = columns[0].map((column: any, index: number) => (
-    <div className="row" key={index}>
-      <div className="column">
-        {column}
+  rowList = columns[0].map((column: any, index: number) => {
+    const handleClick = () => setSelectedRow(index);
+
+    return (
+      <div className={`row ${selectedRow === index ? "selected" : ""}`} key={index} onClick={handleClick}>
+        <div className="column">
+          {column}
+        </div>
       </div>
-    </div>
-  ));
+    );
+  });
 
   return (
     <div className="list">
