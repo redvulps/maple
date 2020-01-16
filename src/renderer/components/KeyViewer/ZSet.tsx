@@ -70,13 +70,13 @@ const ZSet = ({ redisInstance, currentDatabase, currentKey }: IBaseTypeProps) =>
 
       columns[0].push(
         <div key={`0.${index}`} onClick={handleMemberClick}>
-          <div>{value[1]}</div>
+          {value[1]}
         </div>
       );
 
       columns[1].push(
         <div key={`1.${index}`} onClick={handleMemberClick}>
-          <div>{value[0].length > 50 ? `${value[0].substring(0, 50)}...` : value[0]}</div>
+          {value[0].length > 50 ? `${value[0].substring(0, 50)}...` : value[0]}
         </div>
       );
     });
